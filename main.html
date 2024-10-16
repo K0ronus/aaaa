@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Угадай число</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            width: 80%;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Угадай число</h1>
+    <p>Я загадал число от 1 до 100. У тебя есть 7 попыток, чтобы угадать!</p>
+
+    <input type="number" id="guessInput" placeholder="Введи число" min="1" max="100">
+    <button onclick="checkGuess()">Угадать</button>
+
+    <div class="message" id="message"></div>
+</div>
+
+<script>
+    let secretNumber = Math.floor(Math.random() * 100) + 1;
+    let attempts = 0;
+    const maxAttempts = 7;
+
+    function checkGuess() {
+        const guess = parseInt(document.getElementById("guessInput").value);
+        const message = document.getElementById("message");
+        
+        if (isNaN(guess) || guess < 1 || guess > 100) {
+            message.textContent = "Пожалуйста, введи число от 1 до 100!";
+            return;
+        }
+
+        attempts++;
+        
+        if (guess === secretNumber) {
+            message.textContent = `Поздравляю! Ты угадал число ${secretNumber} за ${attempts} попыток!`;
+            document.getElementById("guessInput").disabled = true;
+        } else if (attempts >= maxAttempts) {
+            message.textContent = `Ты проиграл. Загаданное число было: ${secretNumber}`;
+            document.getElementById("guessInput").disabled = true;
+        } else if (guess < secretNumber) {
+            message.textContent = `Мое число больше. У тебя осталось ${maxAttempts - attempts} попыток.`;
+        } else {
+            message.textContent = `Мое число меньше. У тебя осталось ${maxAttempts - attempts} попыток.`;
+        }
+    }
+</script>
+
+</body>
+</html>
